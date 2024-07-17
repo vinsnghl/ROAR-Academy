@@ -1,0 +1,58 @@
+import gym
+import numpy as np
+
+# PID controller class
+class PID:
+    def __init__(self, Kp, Ki, Kd):
+        self.Kp = Kp
+        self.Ki = Ki
+        self.Kd = Kd
+        self.integral = 0
+        self.previous_error = 0
+
+    def compute(self, error, dt):
+        self.integral += error * dt
+        derivative = (error - self.previous_error) / dt
+        self.previous_error = error
+        return self.Kp * error + self.Ki * self.integral + self.Kd * derivative
+
+# Function to map PID output to action space
+def pid_to_action(pid_output):
+    if pid_output < 0:
+        return 0
+    else:
+        return 1
+
+# Main function to run the CartPole environment with PID control
+def run_cartpole_pid():
+    env = gym.make('CartPole-v1')
+    pid = PID(Kp=1.0, Ki=0.1, Kd=0.01)
+    
+    num_episodes = 10
+    max_steps = 200
+
+    for episode in range(num_episodes):
+        observation = env.reset()
+        total_reward = 0
+
+        for t in range(max_steps):
+            env.render()
+
+            pole_angle = observation[2]  # Pole angle
+            error = -pole_angle  # We want the angle to be zero
+
+            dt = 0.02  # Gym CartPole uses a step size of 0.02 seconds
+            pid_output = pid.compute(error, dt)
+            action = pid_to_action(pid_output)
+            
+            observation, reward, done, _ = env.step(action)
+            total_reward += reward
+            
+            if done:
+                print(f"Episode {episode + 1} finished after {t + 1} timesteps with total reward {total_reward}")
+                break
+
+    env.close()
+
+# Run the PID controlled CartPole
+run_cartpole_pid()

@@ -1,0 +1,17 @@
+# Problem 1
+import numpy as np
+
+matrix_one = np.matrix([[6,-9,1], [4, 24, 8]])
+output = np.multiply(matrix_one, 2)
+print(output)
+
+
+# Problem 2 and 3
+
+matrix_two = np.matrix([[1,0], [0,1]])
+matrix_three = np.matrix([[6,-9,1], [4,24,8]])
+matrix_four = np.matrix([[4,3], [3,2]])
+matrix_five = np.matrix([[-2,3], [3, -4]])
+
+print(np.dot(matrix_two, matrix_three))
+print(np.dot(matrix_four, matrix_five))

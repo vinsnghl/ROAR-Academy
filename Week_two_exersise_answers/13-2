@@ -1,0 +1,10 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# generate a basic sample point array on x-axis
+x = np.array([1,1.5,2.0, 2.5,3.0])
+y = np.array([2, 3, 4, 2.0,0])
+
+# plot x, y
+plt.plot(x, y, color = 'b', linewidth = 1)
+plt.show()
